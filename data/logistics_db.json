@@ -1,0 +1,21 @@
+{
+    "mock_database": {
+        "orders": {
+            "TRK1001": {
+                "status": "In Transit",
+                "destination": "Kuala Lumpur",
+                "eta": "2026-07-10"
+            },
+            "TRK1002": {
+                "status": "Delivered",
+                "destination": "Penang",
+                "eta": "Completed"
+            },
+            "TRK1003": {
+                "status": "Processing in Hub",
+                "destination": "Johor Bahru",
+                "eta": "2026-07-12"
+            }
+        }
+    }
+}

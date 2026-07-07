@@ -1,0 +1,31 @@
+{
+    "responses": {
+        "track_order": [
+            "Please provide your Tracking ID, and I will instantly look into our shipping registry database for you.",
+            "Sure! Can you give me your tracking or order number to locate the package?"
+        ],
+        "change_shipping_address": [
+            "If the package has not left our distribution facility, we can update the address. Please send the new address details.",
+            "Address changes are applicable before dispatching. Please share your Order ID along with the new shipping location."
+        ],
+        "delivery_options": [
+            "We provide standard economy shipping (3-5 business days) and premium next-day priority express options.",
+            "Our logistics ecosystem supports Ground Freight delivery, air freight, and hyper-local parcel dispatching."
+        ],
+        "check_refund_policy": [
+            "Our company guidelines guarantee free returns and full refunds within 7 working days post-delivery in original packaging conditions.",
+            "You can check our global refund policies via terms page. Normally refunds are routed back to your card within 3 days."
+        ],
+        "contact_human_agent": [
+            "Connecting your terminal session to a live logistics human desk representative. Please stand by...",
+            "Routing this conversation thread to our advanced tier helpdesk agent. Please wait a moment."
+        ],
+        "create_account": [
+            "To unlock exclusive freight options, please click 'Sign Up' link on our dashboard and input your phone or email credentials."
+        ],
+        "default": [
+            "I am sorry, I can't parse your input correctly. Can you rephrase? You can ask me to track orders, change addresses, or look into refund policies.",
+            "Apologies! That request is slightly outside my current functional domain. Feel free to prompt about our delivery services."
+        ]
+    }
+}
