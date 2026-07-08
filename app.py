@@ -1,62 +1,236 @@
 """
-File: app.py
-Description: Streamlit based Graphical User Interface (GUI) wrapper 
-             offering an elegant interactive chat platform for user presentation.
+Main Page
+Smart Logistics Assistant
 """
 
 import streamlit as st
-from chatbot import LogisticsChatbot
 
-# Page Layout configurations
-st.set_page_config(page_title="Logistics AI Agent", page_icon="📦", layout="centered")
 
-st.title("📦 Logistics Customer Support System")
-st.markdown("### Intelligent NLP Intent Recognition Prototype")
-st.write("Ask queries regarding tracking, shipping addresses, refunds, account setup, etc.")
-st.write("---")
+st.set_page_config(
+    page_title="Smart Logistics Assistant",
+    page_icon="📦",
+    layout="wide"
+)
 
-# Resource Caching for optimized loading performance
-@st.cache_resource
-def initialize_system_backend():
-    return LogisticsChatbot(confidence_threshold=0.35)
 
-try:
-    chatbot_instance = initialize_system_backend()
-except Exception as e:
-    st.error(f"❌ Failed to load the AI core pipeline. Details: {e}")
-    st.info("💡 Advice: Ensure you have successfully populated data files and run `train_model.py` to compile the artifacts.")
-    st.stop()
+# =========================
+# CSS
+# =========================
 
-# State management for preserving chat logs between rerenders
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = []
+st.markdown("""
+<style>
 
-# Display past messages
-for message in st.session_state.chat_history:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-        if message["role"] == "assistant" and "metadata" in message:
-            st.caption(f"⚙️ [Intent: **{message['metadata']['intent']}** | Confidence: **{message['metadata']['conf']:.2%}**]")
+.stApp {
+    background: linear-gradient(
+        180deg,
+        #f8fbff 0%,
+        #ffffff 100%
+    );
+}
 
-# Capture dynamic user input
-if prompt := st.chat_input("Enter your inquiries here (e.g., 'How do I track my delivery?')"):
-    
-    # Render user prompt
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    st.session_state.chat_history.append({"role": "user", "content": prompt})
-    
-    # Fetch response data from backend inference engine
-    bot_reply, matched_intent, conf_score = chatbot_instance.get_bot_response(prompt)
-    
-    # Render system response
-    with st.chat_message("assistant"):
-        st.markdown(bot_reply)
-        st.caption(f"⚙️ [Intent: **{matched_intent}** | Confidence: **{conf_score:.2%}**]")
-        
-    # Append structured history elements
-    st.session_state.chat_history.append({
-        "role": "assistant",
-        "content": bot_reply,
-        "metadata": {"intent": matched_intent, "conf": conf_score}
-    })
+
+.hero {
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #60a5fa
+    );
+    padding:40px;
+    border-radius:25px;
+    color:white;
+    margin-bottom:30px;
+}
+
+
+.card {
+
+    background:white;
+    padding:30px;
+    border-radius:25px;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,0.08);
+
+    margin-bottom:20px;
+
+}
+
+
+.title {
+
+font-size:35px;
+font-weight:700;
+
+}
+
+
+.subtitle {
+
+font-size:18px;
+
+}
+
+
+</style>
+""",
+unsafe_allow_html=True)
+
+
+
+# =========================
+# Header
+# =========================
+
+
+st.markdown("""
+<div class="hero">
+
+<div class="title">
+📦 Smart Logistics Assistant
+</div>
+
+<div class="subtitle">
+AI-powered customer support chatbot for logistics enquiries
+</div>
+
+</div>
+""",
+unsafe_allow_html=True)
+
+
+
+# =========================
+# Description
+# =========================
+
+
+st.markdown("""
+<div class="card">
+
+<h3>
+Welcome 👋
+</h3>
+
+
+<p>
+Our AI assistant can help you with:
+</p>
+
+
+<ul>
+
+<li>
+📦 Parcel tracking
+</li>
+
+<li>
+🚚 Delivery status
+</li>
+
+<li>
+🏠 Change delivery address
+</li>
+
+<li>
+💰 Refund and shipping enquiries
+</li>
+
+</ul>
+
+
+</div>
+""",
+unsafe_allow_html=True)
+
+
+
+st.divider()
+
+
+st.subheader(
+"Choose Your Assistant"
+)
+
+
+
+col1,col2 = st.columns(2)
+
+
+
+# =========================
+# AI Bot
+# =========================
+
+with col1:
+
+
+    st.markdown("""
+    <div class="card">
+
+    <h2>
+    🤖 ParcelPal AI
+    </h2>
+
+    <p>
+    Logistics customer support assistant.
+    </p>
+
+
+    </div>
+    """,
+    unsafe_allow_html=True)
+
+
+
+    if st.button(
+        "Start Chat",
+        use_container_width=True
+    ):
+
+        st.switch_page(
+            "pages/Chat.py"
+        )
+
+
+
+
+# =========================
+# Future Bot
+# =========================
+
+
+with col2:
+
+
+    st.markdown("""
+    <div class="card">
+
+    <h2>
+    🧑 TEONGKAIZHE XJJ
+    </h2>
+
+    <p>
+    Coming Soon
+    </p>
+
+
+    </div>
+    """,
+    unsafe_allow_html=True)
+
+
+
+    st.button(
+        "Unavailable",
+        disabled=True,
+        use_container_width=True
+    )
+
+
+
+# =========================
+# Footer
+# =========================
+
+st.caption(
+"Smart Logistics Assistant | NLP Customer Support System"
+)
