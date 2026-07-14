@@ -24,8 +24,10 @@
             "To unlock exclusive freight options, please click 'Sign Up' link on our dashboard and input your phone or email credentials."
         ],
         "default": [
-            "I am sorry, I can't parse your input correctly. Can you rephrase? You can ask me to track orders, change addresses, or look into refund policies.",
-            "Apologies! That request is slightly outside my current functional domain. Feel free to prompt about our delivery services."
+            "I’m here for logistics support — please ask about tracking, shipping address updates, delivery options, or refund policies.",
+            "I didn’t catch that clearly. Can you rephrase with a delivery-related question like tracking, order status, or address change?",
+            "Please ask about our delivery services, shipping status, or refund procedures so I can assist you better.",
+            "If you need help with a shipment, tracking number, or order refund, I can help you with logistics support."
         ]
     }
 }

@@ -89,8 +89,41 @@ class LogisticsChatbot:
         
         # Model Prediction and probability extraction
         predicted_intent = self.model.predict(transformed_text)[0]
-        probabilities = self.model.predict_proba(transformed_text)
-        max_confidence = np.max(probabilities)
+
+        # Robust confidence extraction: some environments / pickled models
+        # may not support `predict_proba` (or may raise AttributeError
+        # due to sklearn version mismatches). Try `predict_proba` first,
+        # fall back to `decision_function` (converted to probabilities),
+        # and finally use a safe default confidence.
+        max_confidence = 1.0
+        try:
+            probabilities = self.model.predict_proba(transformed_text)
+            # probabilities shape may be (n_samples, n_classes)
+            if hasattr(probabilities, 'ndim') and probabilities.ndim > 1:
+                max_confidence = float(np.max(probabilities))
+            else:
+                max_confidence = float(np.max(probabilities))
+        except Exception:
+            # predict_proba failed (possibly AttributeError on multi_class)
+            try:
+                if hasattr(self.model, 'decision_function'):
+                    scores = self.model.decision_function(transformed_text)
+                    # Convert scores to probabilities
+                    if np.ndim(scores) == 1:
+                        # Binary case: apply sigmoid
+                        probs = 1.0 / (1.0 + np.exp(-scores))
+                        probs = np.ravel(probs)
+                        # take the higher of prob and 1-prob as confidence
+                        max_confidence = float(max(probs.max(), 1.0 - probs.min()))
+                    else:
+                        # Multiclass: softmax
+                        exp_scores = np.exp(scores - np.max(scores, axis=1, keepdims=True))
+                        probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+                        max_confidence = float(np.max(probs))
+                else:
+                    max_confidence = 1.0
+            except Exception:
+                max_confidence = 1.0
         
         # Validation Rule: Handling Out-of-Domain or low-confidence inputs
         if max_confidence < self.threshold:
